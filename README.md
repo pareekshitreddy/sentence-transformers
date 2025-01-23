@@ -37,7 +37,7 @@ This repository contains a minimal demonstration of how to:
 
 ## Project Structure
 ```bash
-my_sentence_transformer_project/├─ README.md
+sentence_transformers/├─ README.md
                                 ├─ requirements.txt
                                 ├─ src
                                 │   ├─ test_sentence_transformers.py
