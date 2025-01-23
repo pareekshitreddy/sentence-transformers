@@ -13,23 +13,23 @@ This repository contains a minimal demonstration of how to:
 
 - **Goal**: Convert input sentences into fixed-length embeddings.
 - **Approach**: 
-  1. Leverage a pretrained model (e.g., BERT).
+  1. Leverage a pre-trained model (BERT).
   2. Optionally apply different pooling strategies (CLS pooling, mean pooling) for the final sentence representation.
-  3. (Optional) Add a projection layer to modify the embedding dimension.
+  3. Add a projection layer to modify the embedding dimension.
 
 ### Step 2: Multi-Task Expansion
 
 - **Goal**: Share the same backbone but produce outputs for multiple tasks.
 - **Tasks**:
-  1. **Sentence Classification (Task A)** — e.g., classify a sentence into different categories (sentiment, topic, etc.).
-  2. **Another NLP task (Task B)** — e.g., Named Entity Recognition (NER) or a second classification task.
+  1. **Sentence Classification (Task A)** — e.g., classify a sentence into different categories (positive/negative/neutral).
+  2. **Another NLP task (Task B)** — e.g., Named Entity Recognition (NER)
 - **Approach**:
   1. Use the same backbone (transformer) for the shared feature representation.
   2. Add separate heads for each task.
 
 ### Step 3: Discussion
 
-- **Freezing vs. Training** which parts of the network in multi-task learning.
+- **Freezing vs. Training**, which parts of the network are used for multi-task learning?
 - **Choosing** between multi-task vs. separate models.
 - **Managing data imbalance** between tasks.
 
@@ -40,10 +40,10 @@ This repository contains a minimal demonstration of how to:
 my_sentence_transformer_project/├─ README.md # This file 
                                 ├─ requirements.txt # Python dependencies 
                                 ├─ src/ │ 
-                                        ├─ test_sentence_transformers.py
-                                        ├─ test_multi_task_model.py 
+                                        ├─ test_sentence_transformers.py #Example usage of SentenceTransformer
+                                        ├─ test_multi_task_model.py # Example usage of MultiTaskSentenceTransformer
                                         ├─ model.py # Model definitions (SentenceTransformer, MultiTaskSentenceTransformer)
-                                ├─ discussion.md # Extended discussion notes (optional)
+                                └─ discussion.md # Extended discussion notes
 ```
                                 
 
