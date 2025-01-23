@@ -1,69 +1,68 @@
 # Discussion Questions
 
-## 1. Which parts of the network should be trained vs. kept frozen?
+## 1. Deciding Which Parts of the Network to Train vs. Keep Frozen
 
-When training a multi-task sentence transformer:
+When you’re training a multi-task sentence transformer:
 
 ### Freezing the Transformer Backbone
-- **Makes sense if** you already have a very strong pre-trained model that:  
+- This is a good idea if you already have a robust pre-trained model that:
   1. Generalizes well  
-  2. You have limited computational resources or limited data  
-- In practice, you often see **partial or full fine-tuning** of the backbone, but there are scenarios (e.g., real-time systems) where you might want to freeze the backbone to speed training or ensure you don’t forget the pre trained knowledge.
+  2. You want to preserve as is because you have limited data or compute resources  
+- Practically, you’ll often see either partial or full fine-tuning. However, in cases like real-time systems, freezing can speed things up or prevent forgetting what was learned during pretraining.
 
 ### Freezing One Head While Training the Other
-- Useful if **Task A** is already “well-trained” and you do not want to negatively impact its performance, but you want to continue training **Task B**.
-- For instance, if Task A’s head is critical to your application and you only want to add a second task (Task B) without risking performance regressions on the first.
-- Another scenario: If you suspect **catastrophic forgetting**, freezing the head for the stable task can help preserve that capability while focusing on the new task.
+- This is handy if **Task A** is already performing well and you don’t want to risk messing it up, but you still want to keep training **Task B**.
+- For example, if Task A is critical for your application, you might add Task B as a new feature without harming Task A’s performance.
+- Another case is if you worry about **catastrophic forgetting**, where the network “forgets” how to do Task A while learning Task B.
 
-In general, many practitioners will **fully fine-tune the entire model** if they have enough data. However, in **low-data** scenarios for one of the tasks, you might freeze large portions of the network and only fine-tune the heads or only certain layers (like the top few Transformer layers).
+Generally, if you have plenty of data, **fully fine-tuning** the entire model often works well. But if one of the tasks has very little data, you might freeze most of the backbone and only train the heads or just a few top layers of the transformer.
 
 ---
 
-## 2. When to implement a multi-task model vs. separate models?
+## 2. Choosing Between a Multi-Task Model and Separate Models
 
 ### Multi-Task Model
 
 **Pros**:
-- Parameter sharing can lead to better generalization if tasks are related.
-- Less memory usage at inference time (one backbone, multiple heads).
-- Potentially faster inference if you only do one forward pass for multiple outputs.
+- Letting tasks share parameters can help each other generalize (if they’re related).
+- Reduced memory usage at inference (you only maintain one backbone).
+- You can get predictions for multiple tasks in a single forward pass, which may be faster overall.
 
 **Cons**:
-- If tasks differ significantly, they may interfere with each other (**negative transfer**).
-- Architecture can become more complex to tune.
-- Catastrophic forgetting or performance trade-offs might be introduced.
+- If the tasks are very different, they could interfere with each other (known as **negative transfer**).
+- The architecture can be more complicated to set up and tune.
+- You might run into catastrophic forgetting or tricky trade-offs in performance.
 
 ### Separate Models
 
 **Pros**:
-- Each model can specialize in its task.
-- Simpler training procedure no need to manage multi-task losses or sampling strategies.
+- Each model can specialize in its own task without interfering with the other.
+- Training is simpler: you don’t have to juggle different tasks or losses in one setup.
 
 **Cons**:
-- Double the parameters and possibly double the inference time if you need both tasks at the same time.
-- Harder to exploit synergies between tasks (you lose the benefits of shared knowledge).
+- You’ll need extra memory, and you might double your inference time if you use both tasks at once.
+- You miss out on potential shared knowledge between tasks.
 
-Ultimately, if tasks are sufficiently related and you want to capitalize on shared language knowledge (like a single representation that’s beneficial for both tasks), a multi-task model can be beneficial. If tasks are very different (e.g., one is an image-based task, another is text-based) or if you suspect negative transfer, separate models might be safer.
+In short, if your tasks are closely linked and you want them to learn from each other, a multi-task approach can be great. But if they’re very different (for example, one is vision-based and the other is text-based) or if combining them hurts performance, separate models might be the safer bet.
 
 ---
 
-## 3. Handling Data Imbalance (Task A has abundant data, Task B has limited data)
+## 3. Dealing with Data Imbalance (When Task A Has a Lot of Data and Task B Has Very Little)
 
-When training the multi-task model with an **imbalanced dataset** (e.g., Task A has 1,000,000 samples, Task B has only 5,000), you could:
+Imagine you have a million samples for Task A but only 5,000 for Task B. Here are a few strategies:
 
-1. **Use Weighted Sampling**  
-   Adjust the sampling so that during training, you don’t always see Task A examples. For instance, alternate minibatches between Task A and Task B or set sampling probabilities that ensure Task B is not overshadowed.
+1. **Weighted Sampling**  
+   Instead of just sampling based on raw frequency, you can adjust the sampling rate so Task B shows up more often in training. You can also alternate mini-batches from each task.
 
 2. **Loss Weighting**  
-   Adjust the multi-task loss such that Task B has a higher weight relative to Task A, helping the model pay more attention to Task B.
+   Give Task B a higher priority by increasing its loss weight so the model pays extra attention to that task.
 
-3. **Transfer Learning / Fine-tuning**  
-   - Train the backbone (and maybe Task A’s head) on Task A (large dataset).  
-   - Freeze (or partially freeze) the backbone and train Task B’s head on Task B’s smaller dataset.  
-   - Optionally, unfreeze certain layers if you suspect you can still gain from some fine-tuning with Task B data.
+3. **Transfer Learning / Fine-Tuning**  
+   - Train the model (and maybe Task A’s head) on the large dataset first.  
+   - Freeze all or most of the backbone, then train Task B’s head on its smaller dataset.  
+   - If beneficial, unfreeze some layers afterward for more specialized tuning.
 
 4. **Data Augmentation**  
-   For the low-resource task, create synthetic data or use techniques like back-translation (for classification tasks) or other data augmentation strategies (for NER) to bolster Task B.
+   For the low-resource task (Task B), you can generate synthetic data or use methods like back-translation to create additional training examples.
 
-Balancing these strategies depends on how **related** the tasks are. The more related they are, the more you might benefit from a shared backbone that’s been well-trained on the high-resource task.
-
+Choosing which method to use depends on how **related** the tasks are. If they’re closely related, a shared backbone that’s already well-trained on the larger dataset can really help the task with limited data.
