@@ -1,6 +1,6 @@
 # Discussion Questions
 
-## 1 Which parts of the network should be trained vs. kept frozen?
+## 1. Which parts of the network should be trained vs. kept frozen?
 
 When training a multi-task sentence transformer:
 
@@ -19,7 +19,7 @@ In general, many practitioners will **fully fine-tune the entire model** if they
 
 ---
 
-## 2 When to implement a multi-task model vs. separate models?
+## 2. When to implement a multi-task model vs. separate models?
 
 ### Multi-Task Model
 
@@ -47,7 +47,7 @@ Ultimately, if tasks are sufficiently related and you want to capitalize on shar
 
 ---
 
-## 3 Handling Data Imbalance (Task A has abundant data, Task B has limited data)
+## 3. Handling Data Imbalance (Task A has abundant data, Task B has limited data)
 
 When training the multi-task model with an **imbalanced dataset** (e.g., Task A has 1,000,000 samples, Task B has only 5,000), you could:
 
