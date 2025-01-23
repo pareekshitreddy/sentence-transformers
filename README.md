@@ -37,13 +37,13 @@ This repository contains a minimal demonstration of how to:
 
 ## Project Structure
 ```bash
-my_sentence_transformer_project/├─ README.md # This file 
-                                ├─ requirements.txt # Python dependencies 
-                                ├─ src/ │ 
-                                        ├─ test_sentence_transformers.py #Example usage of SentenceTransformer
-                                        ├─ test_multi_task_model.py # Example usage of MultiTaskSentenceTransformer
-                                        ├─ model.py # Model definitions (SentenceTransformer, MultiTaskSentenceTransformer)
-                                └─ discussion.md # Extended discussion notes
+my_sentence_transformer_project/├─ README.md
+                                ├─ requirements.txt
+                                ├─ src
+                                │   ├─ test_sentence_transformers.py
+                                │   ├─ test_multi_task_model.py 
+                                │   ├─ models.py
+                                └─ discussion.md 
 ```
                                 
 
