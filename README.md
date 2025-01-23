@@ -36,15 +36,16 @@ This repository contains a minimal demonstration of how to:
 ---
 
 ## Project Structure
-my_sentence_transformer_project/ ├─ README.md # This file ├─ requirements.txt # Python dependencies ├─ src/ │ ├─ main.py # Example scripts demonstrating usage │ ├─ model.py # Model definitions (SentenceTransformer, MultiTaskSentenceTransformer) │ ├─ discussion.md # Extended discussion notes (optional) └─ ...
+my_sentence_transformer_project/├─ README.md # This file 
+                                ├─ requirements.txt # Python dependencies 
+                                ├─ src/ │ 
+                                        ├─ test_sentence_transformers.py
+                                        ├─ test_multi_task_model.py 
+                                        ├─ model.py # Model definitions (SentenceTransformer, MultiTaskSentenceTransformer)
+                                ├─ discussion.md # Extended discussion notes (optional) 
+                                
 
 
-- **`model.py`** contains two classes:
-  - `SentenceTransformer` (single-task model)
-  - `MultiTaskSentenceTransformer` (multi-task model)
-- **`main.py`** shows how to instantiate and test the models with sample data.
-- **`discussion.md`** (optional) can contain a more detailed write-up of the discussion questions.
 
----
 
 
