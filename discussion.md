@@ -1,14 +1,14 @@
 # Discussion Questions
 
-## 3.1 Which parts of the network to train vs. keep frozen?
+## 3.1 Which parts of the network should be trained vs. kept frozen?
 
 When training a multi-task sentence transformer:
 
 ### Freezing the Transformer Backbone
-- **Makes sense if** you already have a very strong pretrained model that:  
+- **Makes sense if** you already have a very strong pre-trained model that:  
   1. Generalizes well  
   2. You have limited computational resources or limited data  
-- In practice, you often see **partial or full fine-tuning** of the backbone, but there are scenarios (e.g., real-time systems) where you might want to freeze the backbone to speed training or ensure you don’t forget the pretrained knowledge.
+- In practice, you often see **partial or full fine-tuning** of the backbone, but there are scenarios (e.g., real-time systems) where you might want to freeze the backbone to speed training or ensure you don’t forget the pre trained knowledge.
 
 ### Freezing One Head While Training the Other
 - Useful if **Task A** is already “well-trained” and you do not want to negatively impact its performance, but you want to continue training **Task B**.
@@ -36,7 +36,7 @@ In general, many practitioners will **fully fine-tune the entire model** if they
 ### Separate Models
 
 **Pros**:
-- Each model can specialize in its own task.
+- Each model can specialize in its task.
 - Simpler training procedure no need to manage multi-task losses or sampling strategies.
 
 **Cons**:
