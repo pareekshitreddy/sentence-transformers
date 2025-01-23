@@ -37,7 +37,7 @@ In general, many practitioners will **fully fine-tune the entire model** if they
 
 **Pros**:
 - Each model can specialize in its own task.
-- Simpler training procedure—no need to manage multi-task losses or sampling strategies.
+- Simpler training procedure no need to manage multi-task losses or sampling strategies.
 
 **Cons**:
 - Double the parameters and possibly double the inference time if you need both tasks at the same time.
