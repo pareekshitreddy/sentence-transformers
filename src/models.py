@@ -15,7 +15,6 @@ class SentenceTransformer(nn.Module):
         # Load pretrained transformer backbone
         self.backbone = AutoModel.from_pretrained(model_name)
         
-        # Optionally project to a new dimension (if desired).
         # For example, we can project 768 -> output_dim. 
         # If output_dim == 768, the projection is not strictly necessary.
         if output_dim != self.backbone.config.hidden_size:
@@ -54,7 +53,7 @@ class SentenceTransformer(nn.Module):
 class MultiTaskSentenceTransformer(nn.Module):
     """
     A multi-task model that shares a transformer backbone for encoding sentences.
-    Task A: Sentence Classification (e.g. sentiment, categories, etc.)
+    Task A: Sentence Classification (positive/negative/neutral)
     Task B: Named Entity Recognition (token-level classification) 
             
     """
